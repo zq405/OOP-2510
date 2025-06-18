@@ -15,8 +15,16 @@ class Product
         {
             cout << "Item: " << name << endl << "Price:RM " << price << endl;
         }
-        friend double calTotal(Product& item);
+        friend void discount(Product& x);
 };
+
+void discount(Product& x)
+{
+    double discount;
+    cout<<"Enter discount(%) : ";
+    cin>>discount;
+    x.price=x.price*(discount/100);
+}
 
 class FoodItem :public Product 
 {
@@ -51,10 +59,10 @@ class BeverageItem :public Product
 
 
 void display_menu();
-void add(Product *products,int &count);
+void add(Product **products,int &count);
 void edit(Product *products,int count);
 void deleteProduct(Product *products, int &count);
-void displayProduct(Product *products, int &count);
+void displayProduct(Product *products, int count);
 
 
 int main()
@@ -76,8 +84,8 @@ void display_menu()
     cout<<"\n=========Reatil Outlet Menu========="<<endl;
     cout<<"\n1. Add Product";
     cout<<"\n2. Edit Product discount";
-    cout<<"\n3. Delete Product";
-    cout<<"\n4. Display Product";
+    cout<<"\n3. Display Product";
+    cout<<"\n4. Delete Product";
     cout<<"\n5. Exit";
 }
 
@@ -126,5 +134,23 @@ void add(Product **products,int &count)
 
 void edit(Product *products,int count)
 {
+    int item;
+    displayProduct(products,count);
+    cout<<"Select item to edit : ";
+    cin>>item;
+    
+}
 
+void displayProduct(Product *products, int count)
+{
+    if(count==0)
+    {
+        cout<<"\nDoesn't have any products";
+        return;
+    }
+    for(int i=0;i<count;i++)
+    {
+        cout<<i<<endl;
+        products[i].display();
+    }
 }
