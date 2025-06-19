@@ -178,7 +178,6 @@ void edit(Product** products,int count)
 {
     int item;
     int y1,y2,y3;
-    displayProduct(products,count);
     cout<<"Select item to edit : ";
     cin>>item;
     if(item>0 && item<=count)
@@ -242,7 +241,6 @@ void displayProduct(Product** products, int count)
 void deleteProduct(Product**& products, int &count)
 {
     int item;
-    displayProduct(products,count);
     cout<<"Enter item to delete";
     cin>>item;
     if(item>0 && item<=count)
