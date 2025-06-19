@@ -138,40 +138,49 @@ void add(Product**& products,int &count)
     cout<<"2.Beverage Item\n";
     cout<<"Type : ";
     cin>>type;
-    cin.ignore();
-    cout<<"Enter Item name : ";
-    getline(cin,name);
-    cout<<"Enter Item Price : RM ";
-    cin>>price;
-
-    Product* newProduct=nullptr;
-    if(type==1)
+    if(type!=1 && type!=2)
     {
-        string expiry_date;
+        cout<<"\nInvalid Type!"<<endl;
+        return;
+    }
+    else
+    {
         cin.ignore();
-        cout<<"Enter Item expiry date : ";
-        getline(cin,expiry_date);
-        newProduct=new FoodItem(name,price,expiry_date);
-    }
-    else if(type==2)
-    {
-        string alcohol;
-        cin.ignore();
-        cout<<"Is it contain alcohol? : ";
-        getline(cin,alcohol);
-        newProduct=new BeverageItem(name,price,alcohol);
+        cout<<"Enter Item name : ";
+        getline(cin,name);
+        cout<<"Enter Item Price : RM ";
+        cin>>price;
+
+        Product* newProduct=nullptr;
+        if(type==1)
+        {
+            string expiry_date;
+            cin.ignore();
+            cout<<"Enter Item expiry date : ";
+            getline(cin,expiry_date);
+            newProduct=new FoodItem(name,price,expiry_date);
+        }
+        else if(type==2)
+        {
+            string alcohol;
+            cin.ignore();
+            cout<<"Is it contain alcohol? : ";
+            getline(cin,alcohol);
+            newProduct=new BeverageItem(name,price,alcohol);
+        }
+
+        Product **temporary=new Product*[count+1];
+        for(int i=0;i<count;++i)
+        {
+            temporary[i]=products[i];
+            
+        }
+            temporary[count]=newProduct;
+            delete[] products;
+            products= temporary;
+            count++;
     }
 
-    Product **temporary=new Product*[count+1];
-    for(int i=0;i<count;++i)
-    {
-        temporary[i]=products[i];
-        
-    }
-        temporary[count]=newProduct;
-        delete[] products;
-        products= temporary;
-        count++;
 }
 
 void edit(Product** products,int count)
@@ -191,35 +200,44 @@ void edit(Product** products,int count)
         if(item>0 && item<=count)
         {
             cin.ignore();
-            cout<<"Edit name ?[Y/N] ";
+            cout<<"Edit name ? [1:YES 2:NO] : ";
             cin>>y1;
-            if(y1=='Y'||y1=='y')
+            if(y1!=1 && y1!=2)
+            {
+                cout<<"\nInvalid code!"<<endl;
+                return;
+            }
+            if(y1==1)
             {
                 editName(*products[item]);
             }
-            else if(y1=='N'||y1=='n')
+            cin.ignore();
+            
+            cout<<"Edit price ? [1:YES 2:NO] : ";
+            cin>>y2;
+            if(y2!=1 && y2!=2)
             {
+                cout<<"\nInvalid code!"<<endl;
                 return;
             }
-            cin.ignore();
-            cout<<"Edit price ?[Y/N] ";
-            cin>>y2;
-            if(y2=='Y'||y2=='y')
+            if(y2==1)
             {
                 editPrice(*products[item]);
             }
-            else if(y2=='N'||y2=='n')
+            cin.ignore();
+
+            cout<<"Want to apply discount ? [1:YES 2:NO] : ";
+            cin>>y3;
+            if(y3!=1 && y3!=2)
             {
+                cout<<"\nInvalid code!"<<endl;
                 return;
             }
-            cin.ignore();
-            cout<<"Want to apply discount ?[Y/N] ";
-            cin>>y3;
-            if(y3=='Y'||y3=='y')
+            if(y3==1)
             {
                 discount(*products[item]);
             }
-            else if(y3=='N'||y3=='n')
+            else if(y3==2)
             {
                 return;
             }
@@ -258,11 +276,11 @@ void deleteProduct(Product**& products, int &count)
     else
     {
         displayProduct(products,count);
-        cout<<"Enter item to delete : ";
+        cout<<"Enter item to delete [staart from 0] : ";
         cin>>item;
-        if(item>0 && item<=count)
+        if(item>=0 && item<count)
         {
-            delete products[item-1];
+            delete products[item];
             for(int i=item;i<=count-1;++i)
             {
                 products[i]=products[i+1];
