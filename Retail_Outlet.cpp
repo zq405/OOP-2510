@@ -30,6 +30,7 @@ void discount(Product& x)
 void editName(Product& x)
 {
     string newName;
+    cin.ignore();
     cout<<"Enter new name : ";
     cin>>newName;
     newName=x.name;
@@ -178,50 +179,58 @@ void edit(Product** products,int count)
 {
     int item;
     int y1,y2,y3;
-    displayProduct(products,count);
-    cout<<"Select item to edit : ";
-    cin>>item;
-    if(item>0 && item<=count)
+    if(count==0)
     {
-        cout<<"Edit name ?[Y/N] ";
-        cin>>y1;
-        if(y1=='Y'||y1=='y')
-        {
-            cin.ignore();
-            editName(*products[item]);
-        }
-        else if(y1=='N'||y1=='n')
-        {
-            return;
-        }
-        cout<<"Edit price ?[Y/N] ";
-        cin>>y2;
-        if(y2=='Y'||y2=='y')
-        {
-            cin.ignore();
-            editPrice(*products[item]);
-        }
-        else if(y2=='N'||y2=='n')
-        {
-            return;
-        }
-        cout<<"Want to apply discount ?[Y/N] ";
-        cin>>y3;
-        if(y3=='Y'||y3=='y')
-        {
-            cin.ignore();
-            discount(*products[item]);
-        }
-        else if(y3=='N'||y3=='n')
-        {
-            cin.ignore();
-            return;
-        }
+        cout<<"\nDoesn't have any products";
+        return;
     }
     else
     {
-        cout<<"Invalid item."<<endl;
+        displayProduct(products,count);
+        cout<<"Select item to edit : ";
+        cin>>item;
+        if(item>0 && item<=count)
+        {
+            cin.ignore();
+            cout<<"Edit name ?[Y/N] ";
+            cin>>y1;
+            if(y1=='Y'||y1=='y')
+            {
+                editName(*products[item]);
+            }
+            else if(y1=='N'||y1=='n')
+            {
+                return;
+            }
+            cin.ignore();
+            cout<<"Edit price ?[Y/N] ";
+            cin>>y2;
+            if(y2=='Y'||y2=='y')
+            {
+                editPrice(*products[item]);
+            }
+            else if(y2=='N'||y2=='n')
+            {
+                return;
+            }
+            cin.ignore();
+            cout<<"Want to apply discount ?[Y/N] ";
+            cin>>y3;
+            if(y3=='Y'||y3=='y')
+            {
+                discount(*products[item]);
+            }
+            else if(y3=='N'||y3=='n')
+            {
+                return;
+            }
+        }
+        else
+        {
+            cout<<"Invalid item."<<endl;
+        }
     }
+
     
 }
 
@@ -242,30 +251,38 @@ void displayProduct(Product** products, int count)
 void deleteProduct(Product**& products, int &count)
 {
     int item;
-    displayProduct(products,count);
-    cout<<"Enter item to delete";
-    cin>>item;
-    if(item>0 && item<=count)
+    if(count==0)
     {
-        delete products[item];
-        for(int i=item;i<=count-1;++i)
-        {
-            products[i]=products[i+1];
-            
-        }
-        count--;
-        Product** temporary=new Product*[count];
-        for(int i=0;i<count;i++)
-        {
-            temporary[i]=products[i];
-            
-        }
-        delete[] products;
-        products=temporary;
-        cout<<"Item deleted"<<endl;
+        cout<<"\nDoesn't have any products";
+        return;
     }
     else
     {
-        cout<<"Invalid Item"<<endl;
+        displayProduct(products,count);
+        cout<<"Enter item to delete";
+        cin>>item;
+        if(item>0 && item<=count)
+        {
+            delete products[item];
+            for(int i=item;i<=count-1;++i)
+            {
+                products[i]=products[i+1];
+                
+            }
+            count--;
+            Product** temporary=new Product*[count];
+            for(int i=0;i<count;i++)
+            {
+                temporary[i]=products[i];
+                
+            }
+            delete[] products;
+            products=temporary;
+            cout<<"Item deleted"<<endl;
+        }
+        else
+        {
+            cout<<"Invalid Item"<<endl;
+        }
     }
 }
