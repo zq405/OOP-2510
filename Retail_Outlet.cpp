@@ -8,9 +8,8 @@ class Product
         string name;
         double price;
     public:
-        Product():name(""),price(0.0){}
+        Product():name("unknown"),price(0.0){}
         Product (string n,double p):name(n),price(p){}
-        ~Product() {}
         virtual void display() 
         {
             cout << "Item: " << name << endl << "Price: RM " << price << endl;
@@ -49,7 +48,7 @@ class FoodItem :public Product
     private:
         string expiryDate;
     public:
-        FoodItem():Product(),expiryDate(""){}
+        FoodItem():Product(),expiryDate("N/A"){}
         FoodItem(string n,double p,string e):Product(n,p),expiryDate(e){}
         ~FoodItem(){}
         void display() override 
@@ -91,7 +90,12 @@ int main()
 
     do
     {
-        display_menu();
+        cout<<"\n=========Reatil Outlet Menu========="<<endl;
+        cout<<"\n1. Add Product";
+        cout<<"\n2. Edit Product discount";
+        cout<<"\n3. Display Product";
+        cout<<"\n4. Delete Product";
+        cout<<"\n5. Exit\n";
         cout<<"Enter choice : ";
         cin>>choice;
 
@@ -116,22 +120,12 @@ int main()
     for(int i=0;i<count;i++)
     {
         delete products[i];
-        delete[] products;
+        
     }
-
+    delete[] products;
     cout<<"\n\n\n";
     system("pause");
     return 0;
-}
-
-void display_menu()
-{
-    cout<<"\n=========Reatil Outlet Menu========="<<endl;
-    cout<<"\n1. Add Product";
-    cout<<"\n2. Edit Product discount";
-    cout<<"\n3. Display Product";
-    cout<<"\n4. Delete Product";
-    cout<<"\n5. Exit\n";
 }
 
 void add(Product**& products,int &count)
@@ -142,39 +136,42 @@ void add(Product**& products,int &count)
     cout<<"\nPlease choose the type of item that you want to add\n";
     cout<<"1.Food Item\n";
     cout<<"2.Beverage Item\n";
+    cout<<"Type : ";
     cin>>type;
     cin.ignore();
     cout<<"Enter Item name : ";
     getline(cin,name);
-    cout<<"Enter Item Price : RM";
+    cout<<"Enter Item Price : RM ";
     cin>>price;
 
-    Product *newProduct=nullptr;
+    Product* newProduct=nullptr;
     if(type==1)
     {
         string expiry_date;
+        cin.ignore();
         cout<<"Enter Item expiry date : ";
         getline(cin,expiry_date);
         newProduct=new FoodItem(name,price,expiry_date);
-        cin.ignore();
     }
     else if(type==2)
     {
         string alcohol;
+        cin.ignore();
         cout<<"Is it contain alcohol? : ";
         getline(cin,alcohol);
         newProduct=new BeverageItem(name,price,alcohol);
     }
 
     Product **temporary=new Product*[count+1];
-    for(int i=0;i<count;i++)
+    for(int i=0;i<count;++i)
     {
         temporary[i]=products[i];
+        
+    }
         temporary[count]=newProduct;
         delete[] products;
         products= temporary;
         count++;
-    }
 }
 
 void edit(Product** products,int count)
@@ -190,6 +187,7 @@ void edit(Product** products,int count)
         cin>>y1;
         if(y1=='Y'||y1=='y')
         {
+            cin.ignore();
             editName(*products[item]);
         }
         else if(y1=='N'||y1=='n')
@@ -200,6 +198,7 @@ void edit(Product** products,int count)
         cin>>y2;
         if(y2=='Y'||y2=='y')
         {
+            cin.ignore();
             editPrice(*products[item]);
         }
         else if(y2=='N'||y2=='n')
@@ -210,10 +209,12 @@ void edit(Product** products,int count)
         cin>>y3;
         if(y3=='Y'||y3=='y')
         {
+            cin.ignore();
             discount(*products[item]);
         }
         else if(y3=='N'||y3=='n')
         {
+            cin.ignore();
             return;
         }
     }
@@ -250,16 +251,17 @@ void deleteProduct(Product**& products, int &count)
         for(int i=item;i<=count-1;++i)
         {
             products[i]=products[i+1];
-            count--;
+            
         }
-
+        count--;
         Product** temporary=new Product*[count];
         for(int i=0;i<count;i++)
         {
             temporary[i]=products[i];
-            delete[] products;
-            products=temporary;
+            
         }
+        delete[] products;
+        products=temporary;
         cout<<"Item deleted"<<endl;
     }
     else
