@@ -131,7 +131,7 @@ void display_menu()
     cout<<"\n2. Edit Product discount";
     cout<<"\n3. Display Product";
     cout<<"\n4. Delete Product";
-    cout<<"\n5. Exit";
+    cout<<"\n5. Exit\n";
 }
 
 void add(Product**& products,int &count)
