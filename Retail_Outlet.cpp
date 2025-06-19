@@ -108,10 +108,10 @@ int main()
                 edit(products,count);
                 break;
             case 3:
-                deleteProduct(products,count);
+                displayProduct(products,count);
                 break;
             case 4:
-                displayProduct(products,count);
+                deleteProduct(products,count);
         }
 
     }while (choice!=5);
@@ -178,6 +178,7 @@ void edit(Product** products,int count)
 {
     int item;
     int y1,y2,y3;
+    displayProduct(products,count);
     cout<<"Select item to edit : ";
     cin>>item;
     if(item>0 && item<=count)
@@ -241,6 +242,7 @@ void displayProduct(Product** products, int count)
 void deleteProduct(Product**& products, int &count)
 {
     int item;
+    displayProduct(products,count);
     cout<<"Enter item to delete";
     cin>>item;
     if(item>0 && item<=count)
