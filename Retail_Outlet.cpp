@@ -92,6 +92,7 @@ int main()
     do
     {
         display_menu();
+        cout<<"Enter choice : ";
         cin>>choice;
 
         switch(choice)
