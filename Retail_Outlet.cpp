@@ -76,7 +76,6 @@ class BeverageItem :public Product
 };
 
 
-void display_menu();
 void add(Product**& products,int &count);
 void edit(Product** products,int count);
 void deleteProduct(Product**& products, int &count);
@@ -243,7 +242,7 @@ void displayProduct(Product** products, int count)
     }
     for(int i=0;i<count;i++)
     {
-        cout<<i+1<<"."<<endl;
+        cout<<"\n"<<i+1<<"."<<endl;
         products[i]->display();
     }
 }
@@ -259,11 +258,11 @@ void deleteProduct(Product**& products, int &count)
     else
     {
         displayProduct(products,count);
-        cout<<"Enter item to delete";
+        cout<<"Enter item to delete : ";
         cin>>item;
         if(item>0 && item<=count)
         {
-            delete products[item];
+            delete products[item-1];
             for(int i=item;i<=count-1;++i)
             {
                 products[i]=products[i+1];
