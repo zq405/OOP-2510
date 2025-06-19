@@ -13,9 +13,11 @@ class Product
         ~Product() {}
         virtual void display() 
         {
-            cout << "Item: " << name << endl << "Price:RM " << price << endl;
+            cout << "Item: " << name << endl << "Price: RM " << price << endl;
         }
         friend void discount(Product& x);
+        friend void editName(Product& x);
+        friend void editPrice(Product& x);
 };
 
 void discount(Product& x)
@@ -24,6 +26,22 @@ void discount(Product& x)
     cout<<"Enter discount(%) : ";
     cin>>discount;
     x.price=x.price*(discount/100);
+}
+
+void editName(Product& x)
+{
+    string newName;
+    cout<<"Enter new name : ";
+    cin>>newName;
+    newName=x.name;
+}
+
+void editPrice(Product& x)
+{
+    double newPrice;
+    cout<<"Enter new price";
+    cin>>newPrice;
+    newPrice=x.price;
 }
 
 class FoodItem :public Product 
@@ -59,24 +77,50 @@ class BeverageItem :public Product
 
 
 void display_menu();
-void add(Product **products,int &count);
-void edit(Product *products,int count);
-void deleteProduct(Product *products, int &count);
-void displayProduct(Product *products, int count);
+void add(Product**& products,int &count);
+void edit(Product** products,int count);
+void deleteProduct(Product**& products, int &count);
+void displayProduct(Product** products, int count);
 
 
 int main()
 {
     int choice;
     int count=0;
-    Product *products=nullptr;
+    Product **products=nullptr;
 
     do
     {
         display_menu();
         cin>>choice;
 
+        switch(choice)
+        {
+            case 1:
+                add(products,count);
+                break;
+            case 2:
+                edit(products,count);
+                break;
+            case 3:
+                deleteProduct(products,count);
+                break;
+            case 4:
+                displayProduct(products,count);
+        }
+
     }while (choice!=5);
+
+
+    for(int i=0;i<count;i++)
+    {
+        delete products[i];
+        delete[] products;
+    }
+
+    cout<<"\n\n\n";
+    system("pause");
+    return 0;
 }
 
 void display_menu()
@@ -89,7 +133,7 @@ void display_menu()
     cout<<"\n5. Exit";
 }
 
-void add(Product **products,int &count)
+void add(Product**& products,int &count)
 {
     int type;
     string name;
@@ -132,16 +176,54 @@ void add(Product **products,int &count)
     }
 }
 
-void edit(Product *products,int count)
+void edit(Product** products,int count)
 {
     int item;
+    int y1,y2,y3;
     displayProduct(products,count);
     cout<<"Select item to edit : ";
     cin>>item;
+    if(item>0 && item<=count)
+    {
+        cout<<"Edit name ?[Y/N] ";
+        cin>>y1;
+        if(y1=='Y'||y1=='y')
+        {
+            editName(*products[item]);
+        }
+        else if(y1=='N'||y1=='n')
+        {
+            return;
+        }
+        cout<<"Edit price ?[Y/N] ";
+        cin>>y2;
+        if(y2=='Y'||y2=='y')
+        {
+            editPrice(*products[item]);
+        }
+        else if(y2=='N'||y2=='n')
+        {
+            return;
+        }
+        cout<<"Want to apply discount ?[Y/N] ";
+        cin>>y3;
+        if(y3=='Y'||y3=='y')
+        {
+            discount(*products[item]);
+        }
+        else if(y3=='N'||y3=='n')
+        {
+            return;
+        }
+    }
+    else
+    {
+        cout<<"Invalid item."<<endl;
+    }
     
 }
 
-void displayProduct(Product *products, int count)
+void displayProduct(Product** products, int count)
 {
     if(count==0)
     {
@@ -150,7 +232,37 @@ void displayProduct(Product *products, int count)
     }
     for(int i=0;i<count;i++)
     {
-        cout<<i<<endl;
-        products[i].display();
+        cout<<i+1<<"."<<endl;
+        products[i]->display();
+    }
+}
+
+void deleteProduct(Product**& products, int &count)
+{
+    int item;
+    displayProduct(products,count);
+    cout<<"Enter item to delete";
+    cin>>item;
+    if(item>0 && item<=count)
+    {
+        delete products[item];
+        for(int i=item;i<=count-1;++i)
+        {
+            products[i]=products[i+1];
+            count--;
+        }
+
+        Product** temporary=new Product*[count];
+        for(int i=0;i<count;i++)
+        {
+            temporary[i]=products[i];
+            delete[] products;
+            products=temporary;
+        }
+        cout<<"Item deleted"<<endl;
+    }
+    else
+    {
+        cout<<"Invalid Item"<<endl;
     }
 }
