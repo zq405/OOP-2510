@@ -25,7 +25,7 @@ void discount(Product& x)
     double discount;
     cout<<"Enter discount(%) : ";
     cin>>discount;
-    x.price=x.price*(discount/100);
+    x.price=x.price*(1-discount/100);
 }
 
 void editName(Product& x)
