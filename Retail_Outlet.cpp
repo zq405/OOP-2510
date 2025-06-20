@@ -277,7 +277,7 @@ void deleteProduct(Product**& products, int& count)
     else
     {
         displayProduct(products, count);
-        cout << "Enter item to delete [staart from 0] : ";
+        cout << "Enter item to delete [start from 0] : ";
         cin >> item;
         if (item >= 0 && item < count)
         {
