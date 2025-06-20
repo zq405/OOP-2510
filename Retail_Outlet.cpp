@@ -278,10 +278,11 @@ void deleteProduct(Product**& products, int &count)
     else
     {
         displayProduct(products,count);
-        cout<<"Enter item to delete [start from 0] : ";
+        cout<<"Enter item to delete : ";
         cin>>item;
-        if(item>=0 && item<count)
+        if(item>0 && item<=count)
         {
+            item--;
             delete products[item];
             for(int i=item;i<=count-1;++i)
             {
