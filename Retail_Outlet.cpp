@@ -189,7 +189,7 @@ void edit(Product** products,int count)
     int y1,y2,y3;
     if(count==0)
     {
-        cout<<"\nDoesn't have any products";
+        cout<<"\nDoesn't have any products\n";
         return;
     }
     else
@@ -255,7 +255,7 @@ void displayProduct(Product** products, int count)
 {
     if(count==0)
     {
-        cout<<"\nDoesn't have any products";
+        cout<<"\nDoesn't have any products\n";
         return;
     }
     for(int i=0;i<count;i++)
