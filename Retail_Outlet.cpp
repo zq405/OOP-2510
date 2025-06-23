@@ -20,7 +20,7 @@ class Product
         friend void editPrice(Product& x);
 };
 
-void discount(Product& x)
+void discount(Product& x)//Can give discount to a product
 {
     double discount;
     cout<<"Enter discount(%) : ";
@@ -28,7 +28,7 @@ void discount(Product& x)
     x.price=x.price*(1-discount/100);
 }
 
-void editName(Product& x)
+void editName(Product& x)//change the name of a product that've been created 
 {
     string newName;
     cin.ignore();
@@ -37,7 +37,7 @@ void editName(Product& x)
     x.name=newName;
 }
 
-void editPrice(Product& x)
+void editPrice(Product& x)//edit the price of product that've been created
 {
     double newPrice;
     cout<<"Enter new price : ";
@@ -100,7 +100,7 @@ int main()
         cout<<"Enter choice : ";
         cin>>choice;
 
-        switch(choice)
+        switch(choice)//make sure the user key in the correct number
         {
             case 1:
                 add(products,count);
@@ -129,7 +129,7 @@ int main()
     return 0;
 }
 
-void add(Product**& products,int &count)
+void add(Product**& products,int &count)//user can choose what function to proceed that provided
 {
     int type;
     string name;
@@ -184,7 +184,7 @@ void add(Product**& products,int &count)
 
 }
 
-void edit(Product** products,int count)
+void edit(Product** products,int count)//user can choose which part of the productto be eidt where the price,name,or apply discount to it
 {
     int item;
     int y1,y2,y3;
@@ -253,7 +253,7 @@ void edit(Product** products,int count)
     
 }
 
-void displayProduct(Product** products, int count)
+void displayProduct(Product** products, int count)///user can look the product that have been saved
 {
     if(count==0)
     {
@@ -267,7 +267,7 @@ void displayProduct(Product** products, int count)
     }
 }
 
-void deleteProduct(Product**& products, int &count)
+void deleteProduct(Product**& products, int &count)//user can delete the product that been saved
 {
     int item;
     if(count==0)
